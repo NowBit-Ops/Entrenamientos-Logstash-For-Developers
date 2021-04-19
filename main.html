@@ -135,7 +135,7 @@
                     <a href="#lab2">Lab 2: Instalación de Logstash</a>
                 </li>
                 <li>
-                    <a href="#lab3">Lab 3: Ejecutando Logstash</a>
+                    <a href="#lab3">Lab 3: Directorios y archivos de configuración</a>
                 </li>
                 <li>
                     <a href="#lab4">Lab 4: Pipelines</a>
@@ -418,6 +418,126 @@
                     <div class="cont-left code">
                         sudo service logstash stop
                     </div>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab3">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 3: Directorios y archivos de configuración</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong> El objetivo de este laboratorio es mostarle los metodos de Instalación
+                de logstash</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                    ¿Que archivos componen la instalacion de logstash por el metodo de archivo comprimido?
+                    <br>
+                    <div class="cont-left hide-answer code" id="1">
+                        ubuntu@ip-172-31-15-165:~/logstash-7.5.2$ ll -ls <br>
+                        total 892 <br>
+                        4 drwxr-xr-x 12 ubuntu ubuntu 4096 Jan 15 2020 ./ <br>
+                        4 drwxr-xr-x 6 ubuntu ubuntu 4096 Apr 19 15:29 ../
+                        4 -rw-r--r-- 1 ubuntu ubuntu 2276 Jan 15 2020 CONTRIBUTORS <br>
+                        8 -rw-r--r-- 1 ubuntu ubuntu 4097 Jan 15 2020 Gemfile <br>
+                        24 -rw-r--r-- 1 ubuntu ubuntu 22792 Jan 15 2020 Gemfile.lock <br>
+                        16 -rw-r--r-- 1 ubuntu ubuntu 13675 Jan 15 2020 LICENSE.txt <br>
+                        792 -rw-r--r-- 1 ubuntu ubuntu 808305 Jan 15 2020 NOTICE.TXT <br>
+                        4 drwxr-xr-x 2 ubuntu ubuntu 4096 Apr 19 15:29 bin/ <br>
+                        4 drwxr-xr-x 2 ubuntu ubuntu 4096 Apr 19 15:29 config/ <br>
+                        4 drwxr-xr-x 2 ubuntu ubuntu 4096 Jan 15 2020 data/ <br>
+                        4 drwxr-xr-x 6 ubuntu ubuntu 4096 Apr 19 15:29 lib/ <br>
+                        4 drwxr-xr-x 4 ubuntu ubuntu 4096 Apr 19 15:29 logstash-core/ <br>
+                        4 drwxr-xr-x 3 ubuntu ubuntu 4096 Apr 19 15:29 logstash-core-plugin-api/ <br>
+                        4 drwxr-xr-x 4 ubuntu ubuntu 4096 Apr 19 15:29 modules/ <br>
+                        4 drwxr-xr-x 3 ubuntu ubuntu 4096 Apr 19 15:29 tools/ <br>
+                        4 drwxr-xr-x 4 ubuntu ubuntu 4096 Jan 15 2020 vendor/ <br>
+                        4 drwxr-xr-x 9 ubuntu ubuntu 4096 Apr 19 15:29 x-pack/ <br>
+                    </div>
+                    <button id="btn1" onclick="alterAnswer(1)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿Donde podemos encontrar la carpeta principal de logstash instalado
+                    por paqueteria?
+                    <br>
+                    <div class="cont-left hide-answer code" id="2">
+                        ubuntu@ip-172-31-15-165:~/logstash-7.5.2$ ls -la /etc/logstash/ <br>
+                        total 48<br>
+                        drwxr-xr-x 3 root root 4096 Apr 19 14:55 .<br>
+                        drwxr-xr-x 93 root root 4096 Apr 19 15:29 ..<br>
+                        drwxr-xr-x 2 root root 4096 Mar 18 05:15 conf.d<br>
+                        -rw-r--r-- 1 root root 2034 Mar 18 05:08 jvm.options<br>
+                        -rw-r--r-- 1 root root 7561 Mar 18 05:08 log4j2.properties<br>
+                        -rw-r--r-- 1 root root 342 Mar 18 05:08 logstash-sample.conf<br>
+                        -rw-r--r-- 1 root root 11226 Apr 19 14:55 logstash.yml<br>
+                        -rw-r--r-- 1 root root 285 Mar 18 05:08 pipelines.yml<br>
+                        -rw------- 1 root root 1696 Mar 18 05:08 startup.options <br>
+                    </div>
+                    <button id="btn2" onclick="alterAnswer(2)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿Donde podemos encontrar los logs de logstash instalado por paqueteria?
+                    <br>
+                    <div class="cont-left hide-answer code" id="3">
+                        ubuntu@ip-172-31-15-165:~/logstash-7.5.2$ ls -la /var/log/logstash/
+                        total 8
+                        drwxr-xr-x 2 logstash root 4096 Mar 18 05:15 .
+                        drwxrwxr-x 10 root syslog 4096 Apr 19 14:45 ..
+                    </div>
+                    <button id="btn3" onclick="alterAnswer(3)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Ahora vamos a hacer que logstash instalado por comprimido deje sus logs
+                    en la misma carpeta que el instalado por paqueteria para esto vamos
+                    a editar el archivo <strong>logstash.yml</strong>
+                    <br>
+                    <div class="cont-left code">
+                        ubuntu@ip-172-31-15-165:~/logstash-7.5.2$ vim config/logstash.yml
+                    </div>
+                </li>
+                <li>
+                    dirijamonos a la sección <strong> Debugging Settings</strong> en la linea 197
+                    <div class="cont-cent">
+                        <img src="./4.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    removamos los comentarios de <mark>log.level</mark> y del <mark>path.log</mark>
+                    <div class="cont-cent">
+                        <img src="./5.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    por ultimo añadamos la ruta <mark>/var/log/logstash/</mark> a la opcion
+                    <mark>path.log</mark>. Guarde lo editado
+                    <div class="cont-cent">
+                        <img src="./6.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    Ahora vamos a darle mas poder a nuestras pipelines aumentando los <mark>workers</mark>
+                    edite el archivo <strong>logstash.yml</strong>
+                    <br>
+                    <div class="cont-left code hide-answer" id="4">
+                        ubuntu@ip-172-31-15-165:~/logstash-7.5.2$ vim config/logstash.yml
+                    </div>
+                    <button id="btn4" onclick="alterAnswer(4)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    dirijamonos a la sección <strong> Pipeline Settings</strong> en la linea 30
+                    <div class="cont-cent">
+                        <img src="./7.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    modifique la cantidad de workers a 5 y guarde el archivo
+                    <br>
+                    <div class="cont-left code hide-answer" id="5">
+                        pipeline.woerkers: 5
+                    </div>
+                    <button id="btn5" onclick="alterAnswer(5)">Mostrar respuesta</button>
                 </li>
             </ol>
         </div>

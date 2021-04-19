@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        hr {
+            margin-bottom: 4em;
+            margin-top: 4em;
+            border: 0;
+            height: 1px;
+            width: 95%;
+            background-image: linear-gradient(to right, #66ccff, #006699, #66ccff);
+        }
+
+        mark {
+            background-color: #ebebeb;
+            color: #545454;
+            padding: 0.25em;
+            margin: 0.25em;
+            border-radius: 5px;
+        }
+
+        body {
+            background-color: #E5E8E8;
+            padding: 3em;
+            font-family: 'Roboto', sans-serif;
+            color: #545454;
+        }
+
+        section {
+            background-color: #fff;
+            padding: 0.001em;
+        }
+
+        li {
+            margin-bottom: 1em;
+        }
+
+        button {
+            border-radius: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            border-width: 1px;
+            border-color: #006699;
+            background-color: #E5E8E8;
+        }
+
+        img {
+            font-family: Consolas;
+            font-size: 18px;
+            color: #fff;
+            border-width: 15px;
+            border-style: solid;
+            border-color: #d6d6d6;
+        }
+
+        .hide-answer {
+            display: none;
+        }
+
+        .cont-cent {
+            text-align: center;
+        }
+
+        .cont-left {
+            font-size: 1.2em;
+            text-align: left;
+            margin-left: 4em;
+            margin-right: 4em;
+            margin-bottom: 1em;
+        }
+
+        .title {
+            background-color: #0099cc;
+            padding: 0.7em;
+            margin: 2em;
+            color: #E5E8E8;
+            font-size: 32px;
+            box-shadow: 10px 10px 5px grey;
+        }
+
+        .code {
+            font-family: Consolas;
+            font-size: 18px;
+            background-color: #1F1F1F;
+            color: #fff;
+            padding: 10px;
+            border-width: 2px;
+            border-left: 20px;
+            border-style: solid;
+            border-color: #86B42B;
+            box-shadow: 10px 10px 5px grey;
+        }
+    </style>
+    <script>
+        function alterAnswer(id) {
+            var element = document.getElementById(id);
+            var hide = true
+            var button = document.getElementById(`btn${id}`);
+            element.classList.forEach(myElement => {
+                if (myElement == "hide-answer") {
+                    hide = false;
+                    element.classList.remove("hide-answer");
+                    button.innerHTML = "Ocultar respuesta";
+                }
+            });
+            if (hide) {
+                element.classList.add("hide-answer");
+                button.innerHTML = "Mostrar respuesta";
+            }
+        }
+    </script>
+    <section>
+        <div class="cont-cent" style="margin-bottom: 0;">
+            <img src="./Logo 1 letra negra.png" style="width: 20em; border-width: 0px;">
+        </div>
+        <div class="title" style="margin-top: 0;">
+            <label for="">Guia de Laboratorios: Logstash Developer Engineer</label>
+        </div>
+        <div class="cont-left" style="line-height: 1.5em;">
+            <ul>
+                <li>
+                    <a href="#lab1">Lab 1: Introducción a Logstash</a>
+                </li>
+                <li>
+                    <a href="#lab2">Lab 2: Instalación de Logstash</a>
+                </li>
+                <li>
+                    <a href="#lab3">Lab 3: Ejecutando Logstash</a>
+                </li>
+                <li>
+                    <a href="#lab4">Lab 4: Pipelines</a>
+                </li>
+                <li>
+                    <a href="#lab5">Lab 5: input JDBC</a>
+                </li>
+                <li>
+                    <a href="#lab6">Lab 6: Input file</a>
+                </li>
+                <li>
+                    <a href="#lab7">Lab 7: Input UDP</a>
+                </li>
+                <li>
+                    <a href="#lab8">Lab 8: output file</a>
+                </li>
+                <li>
+                    <a href="#lab9">Lab 9: output Excec</a>
+                </li>
+                <li>
+                    <a href="#lab10">Lab 10: Output ElasticSearch</a>
+                </li>
+                <li>
+                    <a href="#lab11">Lab 11: Filter Mutate</a>
+                </li>
+                <li>
+                    <a href="#lab12">Lab 12: filter dissect</a>
+                </li>
+                <li>
+                    <a href="#lab13">Lab 13: Filter Grock</a>
+                </li>
+                <li>
+                    <a href="#lab14">Lab 14: Filter Ruby</a>
+                </li>
+                <li>
+                    <a href="#lab15">Lab 15: Filter Geo IP</a>
+                </li>
+                <li>
+                    <a href="#lab16">Lab 16: debugging y Troubleshooting en logstash</a>
+                </li>
+                <li>
+                    <a href="#lab17">Lab 17: Condicionales de logstash</a>
+                </li>
+                <li>
+                    <a href="#lab18">Lab 18: Instalando Plugins de la comunidad</a>
+                </li>
+                <li>
+                    <a href="#lab19">Lab 19: Configuraciones Avanzadas</a>
+                </li>
+            </ul>
+        </div>
+        <hr>
+    </section>
+    <section id="lab1">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 1: Introducción a Logstash</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong> El objetivo de este laboratorio es presentarle el entorno de laboratorio
+                de AWS EC2 y brindarle una breve descripción del ambiente.</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>NOTA:</strong> Todas las prácticas de laboratorio se realizarán mediante el servicio AWS EC2.
+                El entorno del laboratorio se diseñó para esta capacitación y tiene todo lo que necesita para
+                completar los laboratorios con éxito. Una vez que haya completado el curso y su entorno de laboratorio
+                ya no esté disponible, podrá completar los laboratorios en instancias de Tier gratuito de Elasticsearch.
+                Utilice estas instrucciones como referencia sobre cómo ejecutar los laboratorios en su propia
+                máquina.</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                    Desde la consola de AWS en el servicio EC2, haga clic en el icono <strong>Conectar</strong> en la
+                    barra de herramientas superior::
+                    <br>
+                    <br>
+                    <div class="cont-cent">
+                        <img src="./1.png" alt="">
+                    </div>
+                    Se abrirá una nueva ventana y tendrá que descifrar la contraseña de Windows usando la clave .pem
+                    proporcionada. A continuación, debe usar Putty para conectarse a la instancia <mark>server1</mark>.
+                </li>
+                <li>
+                    Use Putty para acceder al server1 <strong>Elastic</strong>:
+                    <br>
+                    <br>
+                    <div class="cont-left code">
+                        Putty server1
+                    </div>
+                </li>
+                <li>
+                    Vea el contenido de la carpeta de inicio del usuario elástico ingresando ls -l. Debería ver los
+                    archivos tar de Elasticsearch, Filebeat, Kibana y Logstash, que simplemente se descargaron de
+                    nuestro sitio web.:
+                    <br>
+                    <br>
+                    <div class="cont-left code">
+                        [elastic@server1 ~]$ ls -l <br>
+                        total 683376 <br>
+                        drwxr-xr-x 5 elastic elastic 4096 Nov 23 15:09 datasets <br>
+                        -rw-r--r-- 1 elastic elastic 113317061 Nov 23 15:09 elasticsearch-7.5.0-linux-x86_64.tar.gz <br>
+                        -rw-r--r-- 1 elastic elastic 206477263 Nov 23 15:09 kibana-7.5.0-linux-x86_64.tar.gz <br>
+                        -rw-r--r-- 1 elastic elastic 551290 Nov 23 15:09 postgresql-9.1-901-1.jdbc4.jar <br>
+                    </div>
+                </li>
+                <li>
+                    Para los laboratorios debera estar familiarizado con la herramienta Vim. pruebelo creando un
+                    documento llamado <strong>HelloWorld.txt</strong>
+                    <div class="cont-left code">
+                        [elastic@server1 ~]$ vim HelloWorld.txt
+                    </div>
+                </li>
+                <li>
+                    Para editar presione <mark>i</mark> y escriba el siguiente texto
+                    <br>
+                    <div class="cont-left code">
+                        Hello World <br>
+                        Conociendo Vim <br>
+                        Lorem ipsum dolor <br>
+                        sit amet consectetur <br>
+                    </div>
+                </li>
+                <li>
+                    Para guardar el documento presione la tecla <strong>Esc</strong> luego escriba
+                    <mark>:wq!</mark>. <mark>W</mark> significa Write y es la opcion de escribir, si solo deseamos
+                    guardar sin salir podemos escribir <mark>:w!</mark>. Por otro lado <mark>Q</mark> significa
+                    Quit, si deseamos salir sin guardar podemos escribir <mark>:q!</mark> <br>
+                    <strong>NOTA:</strong> Siempre debemos presionar <strong>Esc</strong> para poder digitar estas
+                    opciones
+                </li>
+                <li>
+                    Vuelva a abrir el documento
+                    <div class="cont-left code">
+                        [elastic@server1 ~]$ vim HelloWorld.txt
+                    </div>
+                </li>
+                <li>
+                    Sin entrar al modo edicion escriba <mark>d3</mark> y luego presione enter. De esta forma puede
+                    borrar multiples lineas simultaneamente, para este caso 3 lineas
+                </li>
+                <li>
+                    En las próximas prácticas de laboratorio, descargara e iniciara Logstash
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab2">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 2: Instalación de Logstash</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong> El objetivo de este laboratorio es mostarle los metodos de Instalación
+                de logstash</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                    En primer lugar para ejecutar logstash requerimos de Java, para ver nuestra version de Java podemos
+                    ejecutar el siguiente comando
+                    <div class="cont-left code">
+                        java -version
+                    </div>
+                    obtendremos un resultado como el siguiente, que nos muestra que Java no se encuentra instalado
+                    <div class="cont-left code">
+                        ubuntu@ip-172-31-15-165:~$ java -version <br><br>
+                        Command 'java' not found, but can be installed with: <br><br>
+                        sudo apt install default-jre <br>
+                        sudo apt install openjdk-11-jre-headless <br>
+                        sudo apt install openjdk-8-jre-headless <br>
+                    </div>
+                </li>
+                <li>
+                    Ejecutemos el siguiente comando para instalar Java
+                    <div class="cont-left code">
+                        sudo apt-get update <br>
+                        sudo apt install default-jre
+                    </div>
+                </li>
+                <li>
+                    volvemos a ejecutar el comando para saber que versión de Java tenemos
+                    <div class="cont-left code">
+                        java -version
+                    </div>
+                    ahi obtendremos un resultado como el siguiente
+                    <div class="cont-left code">
+                        ubuntu@ip-172-31-15-165:~$ java -version <br>
+                        openjdk version "11.0.10" 2021-01-19 <br>
+                        OpenJDK Runtime Environment (build 11.0.10+9-Ubuntu-0ubuntu1.18.04) <br>
+                        OpenJDK 64-Bit Server VM (build 11.0.10+9-Ubuntu-0ubuntu1.18.04, mixed mode, sharing) <br>
+                    </div>
+                </li>
+                <li>
+                    Lo siguiente que requerimos es validar la variable de entorno <mark>$JAVA_HOME</mark> para esto
+                    editaremos el documento <mark>/etc/environment</mark> con vim
+                    <div class="cont-left code">
+                        sudo vim /etc/environment
+                    </div>
+                </li>
+                <li>
+                    ahi presionaremos <mark>i</mark> para editar y añadiremos una nueva linea con el siguiente contenido
+                    <div class="cont-left code">
+                        JAVA_HOME="/usr/lib/jvm/java-1.11.0-openjdk-amd64/"
+                    </div>
+                    presionaremos <strong>Esc</strong> y ahi <mark>:wq!</mark>
+                </li>
+                <li>
+                    ahora actualizamos las variables de entorno con el siguiente comando:
+                    <div class="cont-left code">
+                        source /etc/environment
+                    </div>
+                </li>
+                <li>
+                    Podemos verificarlo con el siguiente comando:
+                    <div class="cont-left code">
+                        echo $JAVA_HOME
+                    </div>
+                </li>
+                <li>
+                    En primer lugar realizaremos la instacion de logstash comprimido, podemos acceder a
+                    <a href="https://www.elastic.co/downloads/logstash">https://www.elastic.co/downloads/logstash</a>
+                </li>
+                <li>
+                    Para descargar el comprimido en el servidor podemos ejecutar el siguiente comando
+                    <div class="cont-left code">
+                        wget https://artifacts.elastic.co/downloads/logstash/logstash-7.5.2.tar.gz
+                    </div>
+                </li>
+                <li>
+                    Descomprima Logstash
+                    <div class="cont-left code">
+                        tar -zxf logstash-7.5.2.tar.gz
+                    </div>
+                </li>
+                <li>
+                    Pruebe a ejecutar logstash con el siguiente comando
+                    <div class="code cont-left">
+                        ./logstash-7.5.2/bin/logstash
+                    </div>
+                    si todo se ejecuto de la manera adecuada deberia ver un cabezal como este
+                    <div class="cont-cent">
+                        <img src="./2.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    Ahora vamos a realizar la instalacion por medio de paqueteria. Descargue e instale la clave de firma
+                    pública:
+                    <div class="cont-left code">
+                        wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+                    </div>
+                </li>
+                <li>
+                    Es posible que deba instalar el paquete <strong>apt-transport-https</strong> en Debian antes de
+                    continuar:
+                    <div class="cont-left code">
+                        sudo apt-get install apt-transport-https
+                    </div>
+                </li>
+                <li>
+                    Guarde la definición del repositorio en /etc/apt/sources.list.d/elastic-7.x.list:
+                    <div class="code cont-left">
+                        echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a
+                        /etc/apt/sources.list.d/elastic-7.x.list
+                    </div>
+                </li>
+                <li>
+                    Ejecute sudo <mark>apt-get update</mark> y el repositorio estará listo para su uso. Puedes
+                    instalarlo con:
+                    <div class="cont-left code">
+                        sudo apt-get update && sudo apt-get install logstash
+                    </div>
+                </li>
+                <li>
+                    Si realizamos los pasos de manera adecuada deberiamos obtener un resultado como el siguiente
+                    <div class="cont-cent">
+                        <img src="./3.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    podemos detener el servicio con
+                    <div class="cont-left code">
+                        sudo service logstash stop
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </section>
+</body>
+
+</html>

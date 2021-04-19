@@ -542,6 +542,177 @@
             </ol>
         </div>
     </section>
+    <section id="lab4">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 4: Pipelines</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong> El objetivo de este laboratorio es mostarle el funcionamiento de las
+                pipelines y que se familiarice con ellas</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                    En primer lugar va familiarice con los plugins de tipo <strong>Input</strong>, ingrese a este
+                    <a href="https://www.elastic.co/guide/en/logstash/current/input-plugins.html">link</a> y
+                    responda las siguientes preguntas
+                    <ul>
+                        <li>
+                            ¿Qué input nos permitiria ingestar datos de <mark>/var/log</mark>?
+                            <br>
+                            <div class="cont-left  hide-answer" id="6">
+                                file
+                            </div>
+                            <button id="btn6" onclick="alterAnswer(6)">Mostrar respuesta</button>
+                        </li>
+                        <li>
+                            ¿Qué input nos permitiria ingestar datos de Syslog?
+                            <br>
+                            <div class="cont-left  hide-answer" id="7">
+                                Syslog
+                            </div>
+                            <button id="btn7" onclick="alterAnswer(7)">Mostrar respuesta</button>
+                        </li>
+                        <li>
+                            ¿Qué input nos permitiria ingestar datos de un base de datos SQL?
+                            <br>
+                            <div class="cont-left  hide-answer" id="8">
+                                JDBC
+                            </div>
+                            <button id="btn8" onclick="alterAnswer(8)">Mostrar respuesta</button>
+                        </li>
+                        <li>
+                            ¿Qué input nos permitiria ingestar datos pptenidos del comando
+                            <mark>Uptime</mark> de linux?
+                            <br>
+                            <div class="cont-left  hide-answer" id="9">
+                                Excec
+                            </div>
+                            <button id="btn9" onclick="alterAnswer(9)">Mostrar respuesta</button>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Ahora va familiarice con los plugins de tipo <strong>Filter</strong>, ingrese a este
+                    <a href="https://www.elastic.co/guide/en/logstash/current/filter-plugins.html">link</a> y
+                    responda las siguientes preguntas
+                    <ul>
+                        <li>
+                            ¿Qué filter nos permitiria parsear un archivo CSV?
+                            <br>
+                            <div class="cont-left  hide-answer" id="10">
+                                CSV
+                            </div>
+                            <button id="btn10" onclick="alterAnswer(10)">Mostrar respuesta</button>
+                        </li>
+                        <li>
+                            ¿Qué filter nos permitiria añadir datos georeferenciados a partir de una IP?
+                            <br>
+                            <div class="cont-left  hide-answer" id="11">
+                                geoip
+                            </div>
+                            <button id="btn11" onclick="alterAnswer(11)">Mostrar respuesta</button>
+                        </li>
+                        <li>
+                            ¿Qué filter nos permitiria ejecutar scripts de programacion?
+                            <br>
+                            <div class="cont-left  hide-answer" id="12">
+                                Ruby
+                            </div>
+                            <button id="btn12" onclick="alterAnswer(12)">Mostrar respuesta</button>
+                        </li>
+                        <li>
+                            ¿Qué filter nos permitiria eliminar un campo?
+                            <br>
+                            <div class="cont-left  hide-answer" id="13">
+                                mutate
+                            </div>
+                            <button id="btn13" onclick="alterAnswer(13)">Mostrar respuesta</button>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    por ultimo va familiarice con los plugins de tipo <strong>Output</strong>, ingrese a este
+                    <a href="https://www.elastic.co/guide/en/logstash/current/output-plugins.html">link</a> y
+                    responda las siguientes preguntas
+                    <ul>
+                        <li>
+                            ¿Qué output nos permitiria enviar datos a Elasticsearch?
+                            <br>
+                            <div class="cont-left  hide-answer" id="14">
+                                Elasticsearch
+                            </div>
+                            <button id="btn14" onclick="alterAnswer(14)">Mostrar respuesta</button>
+                        </li>
+                        <li>
+                            ¿Qué output nos permitiria obtener un archivo CSV?
+                            <br>
+                            <div class="cont-left  hide-answer" id="15">
+                                CSV
+                            </div>
+                            <button id="btn15" onclick="alterAnswer(15)">Mostrar respuesta</button>
+                        </li>
+                        <li>
+                            ¿Qué output nos permitiria obtener un cola de kafka kafka?
+                            <br>
+                            <div class="cont-left  hide-answer" id="16">
+                                kafka
+                            </div>
+                            <button id="btn16" onclick="alterAnswer(16)">Mostrar respuesta</button>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Cree la carpeta <mark>conf.d</mark> para almacenar sus pipelines dentro de la carpeta
+                    principal de logstash descomprimido 
+                    <div class="cont-left code">
+                        mkdir ./logstash-7.5.2/conf.d
+                    </div>
+                </li>
+                <li>
+                    En este momento vamos a contruir nuestra primera pipeline, cree un archivo llamado
+                    <mark>lab4.conf</mark> en la carpeta <mark>conf.d</mark> dentro del logstash
+                    que descomprimido
+                    <div class="code cont-left">
+                        sudo vim ./logstash-7.5.2/conf.d/lab4.conf
+                    </div>
+                </li>
+                <li>
+                    Añada el siguiente input, el cual generara datos de forma aleatoria 3 veces
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    generator {
+        lines => [
+           "line 1",
+            "line 2",
+            "line 3"
+        ]
+        count => 3
+    }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Añada el siguiente Output, el cual le mostrara lo generado en pantalla
+                    <div class="cont-left code">
+                        <pre class="">
+output {
+    stdout {}
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline de la siguiente forma
+                    <div class="cont-left code">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab4.conf
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </section>
 </body>
 
 </html>

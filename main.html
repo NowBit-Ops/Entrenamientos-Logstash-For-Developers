@@ -544,7 +544,7 @@
     </section>
     <section id="lab4">
         <div class="title" style="margin-top: 0;">
-            <label for="">Lab 4: Ejecutando Logstash</label>
+            <label for="">Lab 4: Pipelines</label>
         </div>
         <div class="cont-left">
             <label><strong>Objetivo:</strong> El objetivo de este laboratorio es mostarle el funcionamiento de las
@@ -664,7 +664,7 @@
                 </li>
                 <li>
                     Cree la carpeta <mark>conf.d</mark> para almacenar sus pipelines dentro de la carpeta
-                    principal de logstash descomprimido 
+                    principal de logstash descomprimido
                     <div class="cont-left code">
                         mkdir ./logstash-7.5.2/conf.d
                     </div>
@@ -709,6 +709,265 @@ output {
                     <div class="cont-left code">
                         ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab4.conf
                     </div>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab5">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 5: input JDBC</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong> El objetivo de este laboratorio es mostarle el funcionamiento de las
+                pipelines y que se familiarice con ellas</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                    verifique que tenga descargado el driver JDBC en su maquina
+                    <br>
+                    <div class="code cont-left">
+                        ll /home/ubuntu/
+                    </div>
+                    deberia tener una respuesta como la siguiente
+                    <div class="cont-cent">
+                        <img src="./8.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    Las credenciales para acceder a la base de datos son las siguientes, cree su string de conexión
+                    <ul>
+                        <li>
+                            Host: lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com
+                        </li>
+                        <li>
+                            Puerto: 5432
+                        </li>
+                        <li>
+                            Database name: postgres
+                        </li>
+                        <li>
+                            Username: postgres
+                        </li>
+                        <li>
+                            Password: t3mp0r4l
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab5.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => ""
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => ""
+        jdbc_user => ""
+        jdbc_password => ""
+        statement => ''
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Añada los datos de la ruta donde se encuentra el driver de JDBC
+                    <br>
+                    <div class="cont-left code hide-answer" id="17">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => ""
+        jdbc_user => ""
+        jdbc_password => ""
+        statement => ''
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn17" onclick="alterAnswer(17)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Añada los datos del string de conexión
+                    <br>
+                    <div class="cont-left code hide-answer" id="18">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => ""
+        jdbc_password => ""
+        statement => ''
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn18" onclick="alterAnswer(18)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Añada los datos de usuario y contraseña
+                    <br>
+                    <div class="cont-left code hide-answer" id="19">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => ''
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn19" onclick="alterAnswer(19)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Añada la siguiente setencia de SQL 
+                    <br>
+                    <div class="code cont-left">
+                        SELECT * FROM world_happiness_report 
+                    </div>
+                    <div class="cont-left code hide-answer" id="19">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'SELECT * FROM world_happiness_report'
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn19" onclick="alterAnswer(19)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Ejecute la pipeline
+                    <br>
+                    <div class="cont-left hide-answer code" id="22">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab5.conf
+                    </div>
+                    <button id="btn22" onclick="alterAnswer(22)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿Qué campos fueros añadidos por Logstash, es decir que no provienen de la base de datos?
+                    <br>
+                    <div class="cont-left hide-answer" id="20">
+                        <ul>
+                            <li>
+                                @timestamp
+                            </li>
+                            <li>
+                                @version
+                            </li>
+                        </ul>
+                    </div>
+                    <button id="btn20" onclick="alterAnswer(20)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿Que significa el campo <mark>@timestamp</mark>?
+                    <br>
+                    <div class="cont-left hide-answer" id="21">
+                        Es la fecha en la que logstash realizo la impresion en pantalla del registro
+                    </div>
+                    <button id="btn21" onclick="alterAnswer(21)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Cree un query que cumpla las siguientes Condiciones y adicionelo
+                    <ul>
+                        <li>
+                            Taer la columna "﻿Country name" con el nombre Country
+                        </li>
+                        <li>
+                            Traer la columna "Regional indicator" con el nombre Region
+                        </li>
+                        <li>
+                            Traer la columna "Social support" con el nombre social_support
+                        </li>
+                        <li>
+                            Traer unicamente los registros que cuentan con un "Social support" > 0.8
+                        </li>
+                    </ul>
+                    <div class="code cont-left hide-answer" id="23">
+                        select "﻿Country name" as  Country, "Regional indicator" as region, "Social support" as social_support from world_happiness_report  where "Social support" > 0.8
+                    </div>
+                    <button id="btn23" onclick="alterAnswer(23)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    cree una copia de la pipeline lab5.conf con el nombre lab5_b.conf
+                    <div class="code cont-left">
+                        cp logstash-7.5.2/conf.d/lab5.conf logstash-7.5.2/conf.d/lab5_b.conf
+                    </div>
+                </li>
+                <li>
+                    Remplace la consulta SQL de la pipeline lab5_b.conf por la consulta que creó
+                    <br>
+                    <div class="cont-left code hide-answer" id="24">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'select "﻿Country name" as Country, "Regional indicator" as region, 
+                    "Social support" as social_support from world_happiness_report where "Social support" > 0.8'
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn24" onclick="alterAnswer(24)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Ejecute la pipeline
+                    <br>
+                    <div class="cont-left hide-answer code" id="25">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab5_b.conf
+                    </div>
+                    <button id="btn25" onclick="alterAnswer(25)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿Que cambios nota entre la pipeline lab5.conf y la pipeline lab5_b.conf?
                 </li>
             </ol>
         </div>

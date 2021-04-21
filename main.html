@@ -1060,7 +1060,8 @@ output {
                     </div>
                 </li>
                 <li>
-                    Haga que la pipeline lea todos los archivos CSV que estan en la carpeta <mark>/home/ubuntu/datasets/lab6/</mark>
+                    Haga que la pipeline lea todos los archivos CSV que estan en la carpeta
+                    <mark>/home/ubuntu/datasets/lab6/</mark>
                     <br>
                     <div class="cont-left code hide-answer" id="29">
                         <pre class="">
@@ -1104,6 +1105,100 @@ output {
                     </div>
                     <button id="btn30" onclick="alterAnswer(30)">Mostrar respuesta</button>
                 </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab7">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 7: Input UDP</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong>El objetivo de este laboratorio es que pueda extraer datos de un archivo
+                de datos y comprenda el funcionamiento del input file </label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                    Revise que tenga disponibles los datasets para este laboratorio
+                    <div class="cont-left code">
+                        ll datasets/lab7/
+                    </div>
+                    debería obtener un resultado como el siguiente
+                    <div class="cont-cent" id="2">
+                        <img src="./10.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    En una nueva sesion de ssh, realice la ejecucion del script de generación de datos por UDP
+                    con el siguiente comando
+                    <div class="cont-left code">
+                        python datasets/lab7/genDataset.py
+                    </div>
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab7.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    udp {
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Añada el parametro del puerto con el valor. <strong>25000</strong> 
+                    , para determinar el parametro
+                    que requiere acuda a la documentación.
+                    <a
+                        href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-udp.html">
+                        https://www.elastic.co/guide/en/logstash/current/plugins-inputs-udp.html</a>
+                    <br>
+                    <div class="cont-left code hide-answer" id="31">
+                        <pre class="">
+input {
+  udp {
+    port => 25000
+  }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn31" onclick="alterAnswer(31)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline que acaba de crear
+                    <br>
+                    <div class="cont-left code hide-answer" id="32">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab7.conf
+                    </div>
+                    <button id="btn32" onclick="alterAnswer(32)">Mostrar respuesta</button>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab8">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 8: output file</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong>El objetivo de este laboratorio es familizarse con los Outputs
+            y que con ellos pueda almacenar datos en archivos usando logstash</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                
             </ol>
         </div>
     </section>

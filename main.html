@@ -141,7 +141,7 @@
                     <a href="#lab4">Lab 4: Pipelines</a>
                 </li>
                 <li>
-                    <a href="#lab5">Lab 5: input JDBC</a>
+                    <a href="#lab5">Lab 5: Input JDBC</a>
                 </li>
                 <li>
                     <a href="#lab6">Lab 6: Input file</a>
@@ -718,8 +718,8 @@ output {
             <label for="">Lab 5: input JDBC</label>
         </div>
         <div class="cont-left">
-            <label><strong>Objetivo:</strong> El objetivo de este laboratorio es mostarle el funcionamiento de las
-                pipelines y que se familiarice con ellas</label>
+            <label><strong>Objetivo:</strong> El objetivo de este laboratorio es que pueda extraer datos de una base
+                de datos y comprenda el funcionamiento del input JDBC</label>
         </div>
         <div class="cont-left">
             <ol>
@@ -851,10 +851,10 @@ output {
                     <button id="btn19" onclick="alterAnswer(19)">Mostrar respuesta</button>
                 </li>
                 <li>
-                    Añada la siguiente setencia de SQL 
+                    Añada la siguiente setencia de SQL
                     <br>
                     <div class="code cont-left">
-                        SELECT * FROM world_happiness_report 
+                        SELECT * FROM world_happiness_report
                     </div>
                     <div class="cont-left code hide-answer" id="19">
                         <pre class="">
@@ -924,7 +924,8 @@ output {
                         </li>
                     </ul>
                     <div class="code cont-left hide-answer" id="23">
-                        select "﻿Country name" as  Country, "Regional indicator" as region, "Social support" as social_support from world_happiness_report  where "Social support" > 0.8
+                        select "﻿Country name" as Country, "Regional indicator" as region, "Social support" as
+                        social_support from world_happiness_report where "Social support" > 0.8
                     </div>
                     <button id="btn23" onclick="alterAnswer(23)">Mostrar respuesta</button>
                 </li>
@@ -968,6 +969,140 @@ output {
                 </li>
                 <li>
                     ¿Que cambios nota entre la pipeline lab5.conf y la pipeline lab5_b.conf?
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab6">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 6: Input file</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong>El objetivo de este laboratorio es que pueda extraer datos de un archivo
+                de datos y comprenda el funcionamiento del input file </label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                    Revise que tenga disponibles los datasets para este laboratorio
+                    <div class="cont-left code">
+                        ll datasets/lab6/
+                    </div>
+                    debería obtener un resultado como el siguiente
+                    <div class="cont-cent" id="2">
+                        <img src="./9.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab6.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    file {
+        start_position => beginning
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Añada el parametro con la ruta de el archivo que desea ingestar,
+                    <mark>"/home/ubuntu/datasets/lab6/Apache_log_1.csv"</mark>, para determinar el parametro
+                    que requiere acuda a la documentación. <a
+                        href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html">
+                        https://www.elastic.co/guide/en/logstash/current/plugins-inputs-file.html</a>
+                    <br>
+                    <div class="cont-left code hide-answer" id="26">
+                        <pre class="">
+input {
+    file {
+        path => "/home/ubuntu/datasets/lab6/Apache_log_1.csv"
+        start_position => beginning
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn26" onclick="alterAnswer(26)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline que acaba de crear
+                    <br>
+                    <div class="cont-left code hide-answer" id="27">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab6.conf
+                    </div>
+                    <button id="btn27" onclick="alterAnswer(27)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿En qué campo queda la lectura que realizó logstash de cada registro?
+                    <br>
+                    <div class="hide-answer cont-left" id="28">
+                        message
+                    </div>
+                    <button id="btn28" onclick="alterAnswer(28)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Edite la pipeline que creo para este laboratorio
+                    <br>
+                    <div class="code cont-left">
+                        vim conf.d/lab6.conf
+                    </div>
+                </li>
+                <li>
+                    Haga que la pipeline lea todos los archivos CSV que estan en la carpeta <mark>/home/ubuntu/datasets/lab6/</mark>
+                    <br>
+                    <div class="cont-left code hide-answer" id="29">
+                        <pre class="">
+input {
+    file {
+        path => "/home/ubuntu/datasets/lab6/*.csv"
+        start_position => beginning
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn26" onclick="alterAnswer(29)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Haga que el demilitador sea <mark>","</mark>
+                    <br>
+                    <div class="cont-left code hide-answer" id="29">
+                        <pre class="">
+input {
+    file {
+        path => "/home/ubuntu/datasets/lab6/*.csv"
+        start_position => beginning
+        delimiter => ","
+    }
+}
+output {
+    stdout { }
+}
+                        </pre>
+                    </div>
+                    <button id="btn26" onclick="alterAnswer(29)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline que acaba de crear
+                    <br>
+                    <div class="cont-left code hide-answer" id="30">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab6.conf
+                    </div>
+                    <button id="btn30" onclick="alterAnswer(30)">Mostrar respuesta</button>
                 </li>
             </ol>
         </div>

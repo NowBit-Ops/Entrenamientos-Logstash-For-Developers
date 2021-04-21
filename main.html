@@ -1156,11 +1156,10 @@ output {
                     </div>
                 </li>
                 <li>
-                    Añada el parametro del puerto con el valor. <strong>25000</strong> 
+                    Añada el parametro del puerto con el valor. <strong>25000</strong>
                     , para determinar el parametro
                     que requiere acuda a la documentación.
-                    <a
-                        href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-udp.html">
+                    <a href="https://www.elastic.co/guide/en/logstash/current/plugins-inputs-udp.html">
                         https://www.elastic.co/guide/en/logstash/current/plugins-inputs-udp.html</a>
                     <br>
                     <div class="cont-left code hide-answer" id="31">
@@ -1194,11 +1193,88 @@ output {
         </div>
         <div class="cont-left">
             <label><strong>Objetivo:</strong>El objetivo de este laboratorio es familizarse con los Outputs
-            y que con ellos pueda almacenar datos en archivos usando logstash</label>
+                y que con ellos pueda almacenar datos en archivos usando logstash</label>
         </div>
         <div class="cont-left">
             <ol>
-                
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab8.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'SELECT * FROM world_happiness_report'
+    }
+}
+output {
+    file { }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Añada el parametro de la ruta donde dejara el archivo, a la ruta 
+                    <strong>/home/ubuntu/datasets/lab8/myfile.txt</strong>
+                    , para determinar el parametro
+                    que requiere acuda a la documentación.
+                    <a href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-file.html">
+                        https://www.elastic.co/guide/en/logstash/current/plugins-outputs-file.html</a>
+                    <br>
+                    <div class="cont-left code hide-answer" id="33">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'SELECT * FROM world_happiness_report'
+    }
+}
+output {
+    file {
+        path => "/home/ubuntu/datasets/lab8/myfile.txt"
+     }
+}
+                        </pre>
+                    </div>
+                    <button id="btn33" onclick="alterAnswer(33)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Ejecute la pipeline
+                    <br>
+                    <div class="cont-left hide-answer code" id="34">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab8.conf
+                    </div>
+                    <button id="btn34" onclick="alterAnswer(34)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Revise su ejecucion
+                    <div class="cont-left code">
+                        cat datasets/lab8/myfile.txt
+                    </div>
+                </li>
+                <li>
+                    ¿En que forma se encuentra el contenido del archivo myfile.txt?
+                    <div class="cont-left hide-answer" id="35">
+                        JSON
+                    </div>
+                </li>
+                <button id="btn35" onclick="alterAnswer(35)">Mostrar respuesta</button>
             </ol>
         </div>
     </section>

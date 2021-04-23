@@ -1557,7 +1557,7 @@ output {
                     </div>
                 </li>
                 <li>
-                    Por ultimo ingrese a discover y visualice sus datos 
+                    Por ultimo ingrese a discover y visualice sus datos
                     <div class="cont-cent">
                         <img src="./15.png" alt="" style="width: 100%;">
                     </div>
@@ -1576,7 +1576,7 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
-                    Para este laboratorio es necesario que los servicios de Elastic y Kibana esten en 
+                    Para este laboratorio es necesario que los servicios de Elastic y Kibana esten en
                     ejecucion. Asegurese de ello
                 </li>
                 <li>
@@ -1722,7 +1722,7 @@ output {
                     <button id="btn53" onclick="alterAnswer(53)">Mostrar respuesta</button>
                 </li>
                 <li>
-                    Por ultimo ingrese a discover y visualice sus datos 
+                    Por ultimo ingrese a discover y visualice sus datos
                     <div class="cont-cent">
                         <img src="./15.png" alt="" style="width: 100%;">
                     </div>
@@ -1741,6 +1741,89 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
+                    Para este laboratorio es necesario que los servicios de Elastic y Kibana esten en
+                    ejecucion. Asegurese de ello
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab11.conf
+                    </div>
+                </li>
+                <li>
+                    Imprima en pantalla un archivo de logs
+                    <div class="code cont-left">
+                        cat datasets/lab6/Apache_log_1.csv
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    file {
+        path => "/home/ubuntu/datasets/lab6/Apache_log_1.csv"
+        start_position => beginning
+    }
+}
+filter {
+    dissect {
+    }
+}
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab11"
+    }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Use el filtro <strong>dissect</strong> para dividir el campo <mark>message</mark>
+                    en los campos que muestra la siguiente imagen
+                    <div class="cont-cent">
+                        <img src="./16.png" alt="">
+                    </div>
+                    <br>
+                    <div class="cont-left code hide-answer" id="54">
+                        <pre class="">
+input {
+    file {
+        path => "/home/ubuntu/datasets/lab6/Apache_log_1.csv"
+        start_position => beginning
+    }
+}
+filter {
+    dissect {
+        mapping => {
+            "message" => "[%{fecha}, [%{level}, %{message}"
+          }
+    }
+}
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab11"
+    }
+}
+                        </pre>
+                    </div>
+                    <button id="btn54" onclick="alterAnswer(54)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline que acaba de crear
+                    <br>
+                    <div class="cont-left code hide-answer" id="55">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab12.conf
+                    </div>
+                    <button id="btn55" onclick="alterAnswer(55)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Por ultimo ingrese a discover y visualice sus datos
+                    <div class="cont-cent">
+                        <img src="./15.png" alt="" style="width: 100%;">
+                    </div>
                 </li>
             </ol>
         </div>

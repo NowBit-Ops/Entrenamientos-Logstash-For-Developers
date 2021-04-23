@@ -1408,6 +1408,159 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
+                    verifique que tenga descargado el driver JDBC en su maquina
+                    <br>
+                    <div class="code cont-left">
+                        ll /home/ubuntu/
+                    </div>
+                    deberia tener una respuesta como la siguiente
+                    <div class="cont-cent">
+                        <img src="./8.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    Descomprima Elasticsearch
+                    <div class="cont-left code">
+                        tar -zxf elasticsearch-7.5.2-linux-x86_64.tar.gz
+                    </div>
+                </li>
+                <li>
+                    Descomprima Kibana
+                    <div class="cont-left code">
+                        tar -zxf kibana-7.5.2-linux-x86_64.tar.gz
+                    </div>
+                </li>
+                <li>
+                    Descomprima Kibana
+                    <div class="cont-left code">
+                        ./elasticsearch-7.5.2/bin/elasticsearch
+                    </div>
+                </li>
+                <li>
+                    Edite el archivo de configuracion <mark>kibana.yml</mark>
+                    <div class="cont-left code">
+                        vim kibana-7.5.2-linux-x86_64/config/kibana.yml
+                    </div>
+                </li>
+                <li>
+                    Adicione el parametro remplazando <strong>ip-local</strong> por su ip local
+                    <div class="cont-left code">
+                        server.host: "ip-local"
+                    </div>
+                </li>
+                <li>
+                    En sesiones de ssh distintas ejecute elasticsearch y kibana
+                    <div class="cont-left code">
+                        ./elasticsearch-7.5.2/bin/elasticsearch
+                    </div>
+                    <div class="cont-left code">
+                        ./kibana-7.5.2-linux-x86_64/bin/kibana
+                    </div>
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab10.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'SELECT * FROM world_happiness_report'
+    }
+}
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => ""
+    #    user => ""
+    #    password => ""
+    }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Añada el nombre de indice, <strong>lab10</strong>
+                    <div class="cont-left code hide-answer" id="40">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'SELECT * FROM world_happiness_report'
+    }
+}
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab10"
+    #    user => ""
+    #    password => ""
+    }
+}
+                        </pre>
+                    </div>
+                    <br>
+                    <button id="btn40" onclick="alterAnswer(40)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿Por qué esta comentada la seccion de <strong>User</strong> y <strong>password</strong>?
+                    <br>
+                    <div class="cont-left hide-answer" id="41">
+                        Porque el cluster que estamos usando no cuenta con seguridad activada
+                    </div>
+                    <button id="btn41" onclick="alterAnswer(41)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿Por qué la seccion de Host es un arreglo?
+                    <br>
+                    <div class="cont-left hide-answer" id="42">
+                        Al ser un arreglo cuando tenemos un cluster con mas de un nodo de elasticsearch podemos
+                        poner varios destinos para balancear las cargas de ingesta
+                    </div>
+                    <button id="btn42" onclick="alterAnswer(42)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline que acaba de crear
+                    <br>
+                    <div class="cont-left code hide-answer" id="43">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab10.conf
+                    </div>
+                    <button id="btn43" onclick="alterAnswer(43)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    En kibana dirijase a <strong>Managment</strong> y luego a <strong> Index Managment</strong>, deberia
+                    obtener un resultado como el siguiente
+                    <div class="cont-cent">
+                        <img src="./13.png" alt="" style="width: 100%;">
+                    </div>
+                </li>
+                <li>
+                    Seleccione <strong>Index Patterns</strong> y cree un Index Pattern llamado <strong>lab*</strong>
+                    usando como campo de fecha <mark>@timestamp</mark>
+                    <div class="cont-cent">
+                        <img src="./14.png" alt="" style="width: 100%;">
+                    </div>
+                </li>
+                <li>
+                    Por ultimo ingrese a discover y visualice sus datos 
+                    <div class="cont-cent">
+                        <img src="./15.png" alt="" style="width: 100%;">
+                    </div>
                 </li>
             </ol>
         </div>

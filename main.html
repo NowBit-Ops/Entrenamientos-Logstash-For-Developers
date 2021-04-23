@@ -150,10 +150,10 @@
                     <a href="#lab7">Lab 7: Input UDP</a>
                 </li>
                 <li>
-                    <a href="#lab8">Lab 8: output file</a>
+                    <a href="#lab8">Lab 8: Output file</a>
                 </li>
                 <li>
-                    <a href="#lab9">Lab 9: output Excec</a>
+                    <a href="#lab9">Lab 9: Output S3</a>
                 </li>
                 <li>
                     <a href="#lab10">Lab 10: Output ElasticSearch</a>
@@ -1225,7 +1225,7 @@ output {
                     </div>
                 </li>
                 <li>
-                    Añada el parametro de la ruta donde dejara el archivo, a la ruta 
+                    Añada el parametro de la ruta donde dejara el archivo, a la ruta
                     <strong>/home/ubuntu/datasets/lab8/myfile.txt</strong>
                     , para determinar el parametro
                     que requiere acuda a la documentación.
@@ -1275,6 +1275,170 @@ output {
                     </div>
                 </li>
                 <button id="btn35" onclick="alterAnswer(35)">Mostrar respuesta</button>
+            </ol>
+        </div>
+    </section>
+    <section id="lab9">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 9: Output S3</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong>El objetivo de este laboratorio es almacenar datos obtenidos
+                por logstash dentro de un bucket de s3</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab9.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'SELECT * FROM world_happiness_report'
+    }
+}
+output {
+    s3{ 
+        access_key_id => ""
+        secret_access_key => ""
+        region => ""
+        bucket => ""
+        codec => "plain"
+    }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Accedamos al bucket de S3 para obtener los datos de acceso necesarios, para el caso de este
+                    laboratorio podemos acceder al siguiente Link
+                    <a
+                        href="https://s3.console.aws.amazon.com/s3/buckets/logstash-trainings?region=us-east-1&tab=objects">
+                        https://s3.console.aws.amazon.com/s3/buckets/logstash-trainings?region=us-east-1&tab=objects</a>
+                </li>
+                <li>
+                    En primer lugar debemos determinar cual es la región del bucket, esto lo podemos encontrar en la
+                    sección de propiedades, por ejemplo para este caso es <strong>us-east-1</strong>
+                    <div class="cont-cent">
+                        <img src="./11.png" alt="" style="width: 100%;">
+                    </div>
+                </li>
+                <li>
+                    Ahora debemos determinar el nombre del bucket, este dato podemos obtenerlo en la misma sección de
+                    propiedades, aparecera con el nombre <strong>Nombre de recurso de Amazon (ARN)</strong> para este
+                    caso
+                    el valor que requerimos es <strong>arn:aws:s3:::logstash-trainings</strong>
+                    <div class="cont-cent">
+                        <img src="./12.png" alt="" style="width: 100%;">
+                    </div>
+                </li>
+                <li>
+                    por ultimo necesitaremos tener las credenciales de acceso para logstash, esta gestion la deberemos
+                    realizar desde IAM. Para este laboratorio no realizaremos las configuraciones de IAM, los datos
+                    de acceso son los siguiente
+                    <ul>
+                        <li>
+                            Access key ID: AKIAQZVPJXO6RQYFQYNA
+                        </li>
+                        <li>
+                            Secret access key: PnglMYTYApvxPbZUNE6vR5xt8SkWEDtdH40wf34z
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    Ahora juntamos todos datos necesarios y armamos los datos de conexión del plugin
+                    <br>
+                    <div class="cont-left code hide-answer" id="37">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'SELECT * FROM world_happiness_report'
+    }
+}
+output {
+    s3{ 
+        access_key_id => "AKIAQZVPJXO6RQYFQYNA"
+        secret_access_key => "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"
+        region => "us-east-1"
+        bucket => "arn:aws:s3:::logstash-trainings"
+        codec => "plain"
+    }
+}
+                        </pre>
+                    </div>
+                    <button id="btn37" onclick="alterAnswer(37)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Ejecute la pipeline
+                    <br>
+                    <div class="cont-left hide-answer code" id="36">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab8.conf
+                    </div>
+                    <button id="btn36" onclick="alterAnswer(36)">Mostrar respuesta</button>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab10">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 10: Output ElasticSearch</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong>El objetivo de este laboratorio es almacenar datos obtenidos
+                por logstash dentro de un Elasticsearch</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab11">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 11: Filter Mutate</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong>El objetivo de este laboratorio es enteder el procesamiento
+                de datos con el filtro mutate</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                </li>
+            </ol>
+        </div>
+    </section>
+    <section id="lab9">
+        <div class="title" style="margin-top: 0;">
+            <label for="">Lab 12: filter dissect</label>
+        </div>
+        <div class="cont-left">
+            <label><strong>Objetivo:</strong>El objetivo de este laboratorio es enteder el procesamiento
+                de datos con el filtro dissect</label>
+        </div>
+        <div class="cont-left">
+            <ol>
+                <li>
+                </li>
             </ol>
         </div>
     </section>

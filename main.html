@@ -1947,6 +1947,91 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
+                    Para este laboratorio es necesario que los servicios de Elastic y Kibana esten en
+                    ejecucion. Asegurese de ello
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab14.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'select * from  city_temperature_csv'
+    }
+}
+filter {
+    ruby {
+      code => ''
+    }
+  }
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab14"
+    }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Cree un script de ruby que tome los datos del campo <mark>avgtemperature</mark>, que representa
+                    el promedio de temperatura en grados fahrenheit y conviertalos a centigrados dejando el
+                    resultado en el campo <mark>avgtemperature_cent</mark>. La formula de conversion
+                    es <strong>C° = F°*1.8 + 35</strong>
+                    <br>
+                    <div class="cont-left code hide-answer" id="60">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'select * from  city_temperature_csv'
+    }
+}
+filter {
+    ruby {
+      code => 'event.set("[avgtemperature_cent]", (event.get("[avgtemperature]")*1.8) + 32)'
+    }
+  }
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab14"
+    }
+}
+                        </pre>
+                    </div>
+                    <button id="btn60" onclick="alterAnswer(60)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline que acaba de crear
+                    <br>
+                    <div class="cont-left code hide-answer" id="61">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab14.conf
+                    </div>
+                    <button id="btn61" onclick="alterAnswer(61)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Por ultimo ingrese a discover y visualice sus datos
+                    <div class="cont-cent">
+                        <img src="./15.png" alt="" style="width: 100%;">
+                    </div>
                 </li>
             </ol>
         </div>
@@ -1982,7 +2067,7 @@ output {
                     <li>
                         Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
                         <div class="code cont-left">
-                            vim conf.d/lab7.conf
+                            vim conf.d/lab15.conf
                         </div>
                     </li>
                     <li>
@@ -2004,7 +2089,7 @@ filter{
 output {
     elasticsearch {
         hosts => ["localhost:9200"]
-        index => "lab14"
+        index => "lab15"
     }
 }
                             </pre>
@@ -2032,7 +2117,7 @@ filter{
 output {
     elasticsearch {
         hosts => ["localhost:9200"]
-        index => "lab14"
+        index => "lab15"
     }
 }
                                 </pre>

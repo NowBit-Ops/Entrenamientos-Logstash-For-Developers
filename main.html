@@ -1962,6 +1962,101 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
+                    <li>
+                        Revise que tenga disponibles los datasets para este laboratorio
+                        <div class="cont-left code">
+                            ll datasets/lab7/
+                        </div>
+                        debería obtener un resultado como el siguiente
+                        <div class="cont-cent" id="2">
+                            <img src="./10.png" alt="">
+                        </div>
+                    </li>
+                    <li>
+                        En una nueva sesion de ssh, realice la ejecucion del script de generación de datos por UDP
+                        con el siguiente comando
+                        <div class="cont-left code">
+                            python datasets/lab7/genDataset.py
+                        </div>
+                    </li>
+                    <li>
+                        Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                        <div class="code cont-left">
+                            vim conf.d/lab7.conf
+                        </div>
+                    </li>
+                    <li>
+                        Añada la siguiente plantilla a su documento
+                        <div class="cont-left code">
+                            <pre class="">
+input {
+    udp {
+        port => 25000
+    }
+}
+filter{
+    json {
+          source => "message"
+        }
+    geoip {
+    }
+  }
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab14"
+    }
+}
+                            </pre>
+                        </div>
+                    </li>
+                    <li>
+                        Haga que el campo de origen sea <mark>incap-client-ip</mark> y que los datos
+                        de destino vayan al campo <mark>geo</mark>
+                        <div class="cont-left code hide-answer" id="59">
+                            <pre class="">
+input {
+    udp {
+        port => 25000
+    }
+}
+filter{
+    json {
+          source => "message"
+        }
+    geoip {
+      source => "incap-client-ip"
+      target => "geo"
+    }
+  }
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab14"
+    }
+}
+                                </pre>
+                        </div>
+                        <button id="btn59" onclick="alterAnswer(59)">Mostrar respuesta</button>
+                    </li>
+                    <li>
+                        Guarde y ejecute la pipeline que acaba de crear
+                        <br>
+                        <div class="cont-left code hide-answer" id="58">
+                            ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab13.conf
+                        </div>
+                        <button id="btn58" onclick="alterAnswer(58)">Mostrar respuesta</button>
+                    </li>
+                    <li>
+                        Por ultimo ingrese a discover y visualice sus datos
+                        <div class="cont-cent">
+                            <img src="./15.png" alt="" style="width: 100%;">
+                        </div>
+                    </li>
+                    <li>
+                        <stron>Opcional:</stron> Entre a la vizualicación de mapas y cree una
+                        basada en los datos que acaba de ingestar
+                    </li>
                 </li>
             </ol>
         </div>

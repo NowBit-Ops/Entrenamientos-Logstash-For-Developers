@@ -165,7 +165,7 @@
                     <a href="#lab12">Lab 12: filter dissect</a>
                 </li>
                 <li>
-                    <a href="#lab13">Lab 13: Filter Grock</a>
+                    <a href="#lab13">Lab 13: Filter Grok</a>
                 </li>
                 <li>
                     <a href="#lab14">Lab 14: Filter Ruby</a>
@@ -1750,7 +1750,7 @@ output {
                 <li>
                     Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
                     <div class="code cont-left">
-                        vim conf.d/lab11.conf
+                        vim conf.d/lab12.conf
                     </div>
                 </li>
                 <li>
@@ -1807,7 +1807,7 @@ filter {
 output {
     elasticsearch {
         hosts => ["localhost:9200"]
-        index => "lab11"
+        index => "lab12"
     }
 }
                         </pre>
@@ -1833,15 +1833,105 @@ output {
     </section>
     <section id="lab13">
         <div class="title" style="margin-top: 0;">
-            <label for="">Lab 13: Filter Grock</label>
+            <label for="">Lab 13: Filter Grok</label>
         </div>
         <div class="cont-left">
             <label><strong>Objetivo:</strong>El objetivo de este laboratorio es enteder el procesamiento
-                de datos con el filtro Grock y el uso de sus expresiones</label>
+                de datos con el filtro Grok y el uso de sus expresiones</label>
         </div>
         <div class="cont-left">
             <ol>
                 <li>
+                    Para este laboratorio es necesario que los servicios de Elastic y Kibana esten en
+                    ejecucion. Asegurese de ello
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab13.conf
+                    </div>
+                </li>
+                <li>
+                    Imprima en pantalla un archivo de logs
+                    <div class="code cont-left">
+                        cat datasets/lab6/Apache_log_1.csv
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    file {
+        path => "/home/ubuntu/datasets/lab6/Apache_log_1.csv"
+        start_position => beginning
+    }
+}
+filter {
+    grok {
+    }
+}
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab13"
+    }
+}
+                            </pre>
+                    </div>
+                </li>
+                <li>
+                    Use el filtro <strong>grok</strong> para dividir el campo <mark>message</mark>
+                    en los campos que muestra la siguiente imagen
+                    <div class="cont-cent">
+                        <img src="./18.png" alt="">
+                    </div>
+                    <br>
+                    ingrese a Kibana y use la consola de debugging de Grok, donde debera probar
+                    sus expresiones, tambien puede encontrar los patterns de Grok en el siguiente
+                    link, <a href="https://github.com/hpcugent/logstash-patterns/blob/master/files/grok-patterns">
+                        ttps://github.com/hpcugent/logstash-patterns/blob/master/files/grok-patterns</a>
+                    <div class="cont-cent">
+                        <img src="./17.png" alt="" style="width: 100%;">
+                    </div>
+                    <div class="cont-left code hide-answer" id="56">
+                        <pre class="">
+input {
+    file {
+        path => "/home/ubuntu/datasets/lab6/Apache_log_1.csv"
+        start_position => beginning
+    }
+}
+filter {
+    grok {
+        match => { 
+            "message" => "%{DAY:day_week} %{MONTH:month} %{MONTHDAY:day} %{TIME:time} %{YEAR:year}, \[%{WORD:level},  %{GREEDYDATA:message}" 
+        }
+    }
+}
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab13"
+    }
+}
+                            </pre>
+                    </div>
+                    <button id="btn56" onclick="alterAnswer(56)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline que acaba de crear
+                    <br>
+                    <div class="cont-left code hide-answer" id="57">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab13.conf
+                    </div>
+                    <button id="btn57" onclick="alterAnswer(57)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Por ultimo ingrese a discover y visualice sus datos
+                    <div class="cont-cent">
+                        <img src="./15.png" alt="" style="width: 100%;">
+                    </div>
                 </li>
             </ol>
         </div>
@@ -1930,9 +2020,9 @@ output {
         </div>
         <div class="cont-left">
             <label><strong>Objetivo:</strong>El objetivo de este laboratorio es conocer
-            las herraientas que tenemos a nuestra disposcicion para implementar
-            logstash con las mejores practicas, recusos y herramientas Avanzadas
-            para ambientes productivos y de desarollo</label>
+                las herraientas que tenemos a nuestra disposcicion para implementar
+                logstash con las mejores practicas, recusos y herramientas Avanzadas
+                para ambientes productivos y de desarollo</label>
         </div>
         <div class="cont-left">
             <ol>
@@ -1947,8 +2037,8 @@ output {
         </div>
         <div class="cont-left">
             <label><strong>Objetivo:</strong> En el taller usted debera aplicar
-            los conoccimientos adiquiridos durante el curso para solventar
-            un proyecto planteado por los instuctores.</label>
+                los conoccimientos adiquiridos durante el curso para solventar
+                un proyecto planteado por los instuctores.</label>
         </div>
         <div class="cont-left">
             <ol>

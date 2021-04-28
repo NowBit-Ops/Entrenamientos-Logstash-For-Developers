@@ -2401,6 +2401,59 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab17.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    generator {
+        lines => [
+           "line 1",
+            "line 2",
+            "line 3"
+        ]
+        count => 3
+    }
+}
+output {
+    exec {
+        command => "mkdir /home/ubuntu/datasets/lab18"
+    }
+}
+                            </pre>
+                    </div>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline de la siguiente forma
+                    <div class="cont-left code">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab18.conf
+                    </div>
+                </li>
+                <li>
+                    Instale el plugin output exec
+                    <div class="code cont-left">
+                        bin/logstash-plugin install logstash-output-exec
+                    </div>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline de la siguiente forma
+                    <div class="cont-left code">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab18.conf
+                    </div>
+                </li>
+                <li>
+                    Ejecute el siguiente comando, la pipeline debio crear la carpeta lab18
+                    <div class="code cont-left">
+                        ls /home/ubuntu/datasets
+                    </div>
+                </li>
+                <li>
+                    Compare el resultado de las dos ejecuciones
                 </li>
             </ol>
         </div>

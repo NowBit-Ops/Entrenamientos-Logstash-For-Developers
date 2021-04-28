@@ -2471,6 +2471,100 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
+                    Vamos a aumentar los parametros de batch size que afecta de forma directa el consumo de memoria de
+                    logstash, en primer lugar ejecute logstash y en una sesion paralela use el comando
+                    <strong>top</strong>
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab19.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        select * from  city_temperature_csv where country = 'US'
+    }
+}
+output {
+    stdout {}
+}
+                            </pre>
+                    </div>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline de la siguiente forma
+                    <div class="cont-left code">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab19.conf
+                    </div>
+                </li>
+                <li>
+                    Ejecute el comando top durante la ejecucion de logstash
+                    <div class="cont-left code">
+                        ubuntu@ip-172-31-15-165:~/$ top
+                    </div>
+                </li>
+                <li>
+                    a editar el archivo <strong>logstash.yml</strong>
+                    <br>
+                    <div class="cont-left code">
+                        ubuntu@ip-172-31-15-165:~/logstash-7.5.2$ vim config/logstash.yml
+                    </div>
+                </li>
+                <li>
+                    dirijamonos a la sección <strong> Pipeline Settings</strong> en la linea 45
+                    <div class="cont-cent">
+                        <img src="./20.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    Editemos el archivo de configuracion para que el parametro 
+                    <mark>pipeline.batch.size</mark> tenga el valor 
+                    de la variable de entorno <mark>BATCH_SIZE</mark>
+                    <div class="cont-cent">
+                        <img src="./20.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    creeemos la variable de entorno <strong>BATCH_SIZE</strong> editando el 
+                    archivo /etc/environment
+                    <div class="code cont-left">
+                        sudo vim /etc/environment
+                    </div>
+                </li>
+                <li>
+                    Asignemos el valor a la variable de entorno 250 y guardemos el archivo
+                    <div class="code cont-left">
+                        BATCH_SIZE=250
+                    </div>
+                </li>
+                <li>
+                    Recarguemos las variables de entorno
+                    <div class="code cont-left">
+                        source /etc/environment 
+                    </div> 
+                </li>
+                <li>
+                    Ejecute la pipeline de la siguiente forma
+                    <div class="cont-left code">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab19.conf
+                    </div>
+                </li>
+                <li>
+                    Ejecute el comando top durante la ejecucion de logstash
+                    <div class="cont-left code">
+                        ubuntu@ip-172-31-15-165:~/$ top
+                    </div>
                 </li>
             </ol>
         </div>

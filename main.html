@@ -2047,33 +2047,33 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
-                    <li>
-                        Revise que tenga disponibles los datasets para este laboratorio
-                        <div class="cont-left code">
-                            ll datasets/lab7/
-                        </div>
-                        debería obtener un resultado como el siguiente
-                        <div class="cont-cent" id="2">
-                            <img src="./10.png" alt="">
-                        </div>
-                    </li>
-                    <li>
-                        En una nueva sesion de ssh, realice la ejecucion del script de generación de datos por UDP
-                        con el siguiente comando
-                        <div class="cont-left code">
-                            python datasets/lab7/genDataset.py
-                        </div>
-                    </li>
-                    <li>
-                        Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
-                        <div class="code cont-left">
-                            vim conf.d/lab15.conf
-                        </div>
-                    </li>
-                    <li>
-                        Añada la siguiente plantilla a su documento
-                        <div class="cont-left code">
-                            <pre class="">
+                <li>
+                    Revise que tenga disponibles los datasets para este laboratorio
+                    <div class="cont-left code">
+                        ll datasets/lab7/
+                    </div>
+                    debería obtener un resultado como el siguiente
+                    <div class="cont-cent" id="2">
+                        <img src="./10.png" alt="">
+                    </div>
+                </li>
+                <li>
+                    En una nueva sesion de ssh, realice la ejecucion del script de generación de datos por UDP
+                    con el siguiente comando
+                    <div class="cont-left code">
+                        python datasets/lab7/genDataset.py
+                    </div>
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab15.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
 input {
     udp {
         port => 25000
@@ -2093,13 +2093,13 @@ output {
     }
 }
                             </pre>
-                        </div>
-                    </li>
-                    <li>
-                        Haga que el campo de origen sea <mark>incap-client-ip</mark> y que los datos
-                        de destino vayan al campo <mark>geo</mark>
-                        <div class="cont-left code hide-answer" id="59">
-                            <pre class="">
+                    </div>
+                </li>
+                <li>
+                    Haga que el campo de origen sea <mark>incap-client-ip</mark> y que los datos
+                    de destino vayan al campo <mark>geo</mark>
+                    <div class="cont-left code hide-answer" id="59">
+                        <pre class="">
 input {
     udp {
         port => 25000
@@ -2121,27 +2121,27 @@ output {
     }
 }
                                 </pre>
-                        </div>
-                        <button id="btn59" onclick="alterAnswer(59)">Mostrar respuesta</button>
-                    </li>
-                    <li>
-                        Guarde y ejecute la pipeline que acaba de crear
-                        <br>
-                        <div class="cont-left code hide-answer" id="58">
-                            ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab13.conf
-                        </div>
-                        <button id="btn58" onclick="alterAnswer(58)">Mostrar respuesta</button>
-                    </li>
-                    <li>
-                        Por ultimo ingrese a discover y visualice sus datos
-                        <div class="cont-cent">
-                            <img src="./15.png" alt="" style="width: 100%;">
-                        </div>
-                    </li>
-                    <li>
-                        <stron>Opcional:</stron> Entre a la vizualicación de mapas y cree una
-                        basada en los datos que acaba de ingestar
-                    </li>
+                    </div>
+                    <button id="btn59" onclick="alterAnswer(63)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline que acaba de crear
+                    <br>
+                    <div class="cont-left code hide-answer" id="58">
+                        ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab13.conf
+                    </div>
+                    <button id="btn58" onclick="alterAnswer(64)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Por ultimo ingrese a discover y visualice sus datos
+                    <div class="cont-cent">
+                        <img src="./15.png" alt="" style="width: 100%;">
+                    </div>
+                </li>
+                <li>
+                    <stron>Opcional:</stron> Entre a la vizualicación de mapas y cree una
+                    basada en los datos que acaba de ingestar
+                </li>
                 </li>
             </ol>
         </div>
@@ -2158,17 +2158,113 @@ output {
         <div class="cont-left">
             <ol>
                 <li>
+                    Ingrese al archivo <strong>logstash.yml</strong> y active la configuracion
+                    <div class="cont-left code">
+                        pipeline.separate_logs: true
+                    </div>
+                </li>
+                <li>
+                    desactive la configuracion <mark>log.level: info</mark> que realizo en el
+                    laboratorio de instalacion colocando un simbolo <strong>#</strong> al comienzo
+                    <div class="code cont-left">
+                        #log.level: info
+                    </div>
+                </li>
+                <li>
+                    ejecute las pipelines de las lecciones 6, 7 y 8 pero como administrador
+                    <br>
+                    <div class="cont-left code hide-answer" id="65">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab6.conf <br>
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab7.conf <br>
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab8.conf <br>
+                    </div>
+                    <button id="btn65" onclick="alterAnswer(65)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Ejecute el siguiente comando para ver los archivos de logs disponibles
+                    <div class="code cont-left">
+                        ls /var/log/logstash/
+                    </div>
+                </li>
+                <li>
+                    Ejecute el siguiente comando para ver el contenido de los logs planos
+                    <div class="code cont-left">
+                        cat /var/log/logstash/logstash-plain.log
+                    </div>
+                </li>
+                <li>
+                    ¿Que indica el siguiente log?
+                    <div class="code cont-left">
+                        [2021-04-28T15:44:47,460][ERROR][org.logstash.Logstash ] org.jruby.exceptions.ThreadKill
+                    </div>
+                    <div class="cont-left  hide-answer" id="66">
+                        Muestra que la pipeline fue forzada a detenerse de forma manual 
+                    </div>
+                    <button id="btn66" onclick="alterAnswer(66)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab12.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        statement => 'SELECT * FROM world_happiness_report'
+    }
+}
+output {
+    s3{ 
+        access_key_id => "AKIAQZVPJXO6RQYFQYNA"
+        secret_access_key => "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"
+        region => "us-east-1"
+        bucket => "arn:aws:s3:::logstash-trainings"
+        codec => "plain"
+    }
+}
+                        </pre>
+                    </div>
+                </li>
+                <li>
+                    Ejecute la pipeline con permisos de administrador
+                    <br>
+                    <div class="cont-left hide-answer code" id="67">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab16.conf
+                    </div>
+                    <button id="btn67" onclick="alterAnswer(67)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    ¿Que significa el siguiente error?
+                    <div class="cont-cent">
+                        <img src="./19.png" alt="" style="width: 100%;">
+                    </div>
+                    <br>
+                    <div class="cont-left hide-answer" id="68">
+                        Que las credenciales otorgadas no tienen permisos para escribir en el bucket de S3
+                    </div>
+                    <button id="btn68" onclick="alterAnswer(68)">Mostrar respuesta</button>
                 </li>
             </ol>
         </div>
     </section>
     <section id="lab17">
         <div class="title" style="margin-top: 0;">
-            <label for="">Lab 17: Condicionales de logstash</label>
+            <label for="">Lab 17: Configuraciones adicionales de Logstash
+            </label>
         </div>
         <div class="cont-left">
             <label><strong>Objetivo:</strong>El objetivo de este laboratorio es enteder el uso
-                y funcionamiento de los Condicionales en logstash con el fin de hacer
+                y funcionamiento de los condicionales y otras funciones adicionales en logstash con el fin de hacer
                 Pilines mas complejas y que satisfagan mas casos de uso</label>
         </div>
         <div class="cont-left">
@@ -2203,22 +2299,6 @@ output {
                 las herraientas que tenemos a nuestra disposcicion para implementar
                 logstash con las mejores practicas, recusos y herramientas Avanzadas
                 para ambientes productivos y de desarollo</label>
-        </div>
-        <div class="cont-left">
-            <ol>
-                <li>
-                </li>
-            </ol>
-        </div>
-    </section>
-    <section id="lab20">
-        <div class="title" style="margin-top: 0;">
-            <label for="">Taller de proyectos</label>
-        </div>
-        <div class="cont-left">
-            <label><strong>Objetivo:</strong> En el taller usted debera aplicar
-                los conoccimientos adiquiridos durante el curso para solventar
-                un proyecto planteado por los instuctores.</label>
         </div>
         <div class="cont-left">
             <ol>

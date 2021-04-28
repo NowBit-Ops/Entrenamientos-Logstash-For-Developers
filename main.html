@@ -2198,7 +2198,7 @@ output {
                         [2021-04-28T15:44:47,460][ERROR][org.logstash.Logstash ] org.jruby.exceptions.ThreadKill
                     </div>
                     <div class="cont-left  hide-answer" id="66">
-                        Muestra que la pipeline fue forzada a detenerse de forma manual 
+                        Muestra que la pipeline fue forzada a detenerse de forma manual
                     </div>
                     <button id="btn66" onclick="alterAnswer(66)">Mostrar respuesta</button>
                 </li>
@@ -2265,11 +2265,126 @@ output {
         <div class="cont-left">
             <label><strong>Objetivo:</strong>El objetivo de este laboratorio es enteder el uso
                 y funcionamiento de los condicionales y otras funciones adicionales en logstash con el fin de hacer
-                Pilines mas complejas y que satisfagan mas casos de uso</label>
+                Pipelines mas complejas y que satisfagan mas casos de uso</label>
         </div>
         <div class="cont-left">
             <ol>
                 <li>
+                    Para este laboratorio es necesario que los servicios de Elastic y Kibana esten en
+                    ejecucion. Asegurese de ello
+                </li>
+                <li>
+                    Dentro de la carpeta de logstash descomprimido cree una nueva pipeline
+                    <div class="code cont-left">
+                        vim conf.d/lab17.conf
+                    </div>
+                </li>
+                <li>
+                    Añada la siguiente plantilla a su documento
+                    <div class="cont-left code">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        select * from  city_temperature_csv where country = 'US'
+    }
+}
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab14"
+    }
+    stdout {}
+}
+                            </pre>
+                    </div>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline de la siguiente forma
+                    <div class="cont-left code">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab7.conf
+                    </div>
+                </li>
+                <li>
+                    haga que unicamente los registros que tienen como ciudad (<strong>city</strong>)
+                    <strong>Birmingham</strong>
+                    sean mostrados en pantalla con el plugin <strong>stdout</strong>
+                    <br>
+                    <div class="cont-left code hide-answer" id="69">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        select * from  city_temperature_csv where country = 'US'
+    }
+}
+output {
+    elasticsearch {
+        hosts => ["localhost:9200"]
+        index => "lab14"
+    }
+    if [city] == "Birmingham" {
+        stdout {}
+    }
+}
+                            </pre>
+                    </div>
+                    <button id="btn69" onclick="alterAnswer(69)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline de la siguiente forma
+                    <br>
+                    <div class="cont-left code">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab7.conf
+                    </div>
+                </li>
+                <li>
+                    haga que los registros que son mostrados en pantalla mediante el plugin
+                    <strong>stdout</strong> no sean enviados a elasticsearch
+                    <br>
+                    <div class="cont-left code hide-answer" id="70">
+                        <pre class="">
+input {
+    jdbc{
+        #input configuration
+        jdbc_driver_library => "/home/ubuntu/postgresql-42.2.19.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+        jdbc_connection_string => "jdbc:postgresql://lab4.cmugonrbtx1e.us-east-1.rds.amazonaws.com:5432/postgres"
+        jdbc_user => "postgres"
+        jdbc_password => "t3mp0r4l"
+        select * from  city_temperature_csv where country = 'US'
+    }
+}
+output {
+    if [city] == "Birmingham" {
+        stdout {}
+    } 
+    else {
+        elasticsearch {
+            hosts => ["localhost:9200"]
+            index => "lab14"
+        }
+    }
+}
+                            </pre>
+                    </div>
+                    <button id="btn70" onclick="alterAnswer(70)">Mostrar respuesta</button>
+                </li>
+                <li>
+                    Guarde y ejecute la pipeline de la siguiente forma
+                    <div class="cont-left code">
+                        sudo ./logstash-7.5.2/bin/logstash -f ./logstash-7.5.2/conf.d/lab7.conf
+                    </div>
                 </li>
             </ol>
         </div>
